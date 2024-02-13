@@ -9,7 +9,7 @@ local LegacyViewSelector = require(pluginRoot.BetterViewSelector.ViewSelectors.L
 
 local GuiService = game:GetService("GuiService")
 
-local VIEWPORT_DRAG_GAP = 10
+local VIEWPORT_DRAG_GAP = 30
 
 local module = {}
 
@@ -177,8 +177,12 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 
 	return {
 		render = render,
-		getPosition = function()
-			return state.position
+		save = function()
+			return {
+				version = 1,
+				anchor = options.anchor,
+				position = state.position,
+			}
 		end,
 	}
 end

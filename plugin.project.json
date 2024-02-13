@@ -14,7 +14,7 @@
 		"Main": {
 			"$className": "Script",
 			"$properties": {
-				"Source": "require(script.Parent.Builds.Plugin).build()"
+				"Source": "require(script.Parent.Builds.Plugin).build(plugin)"
 			}
 		}
 	}
