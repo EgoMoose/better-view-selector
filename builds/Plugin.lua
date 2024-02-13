@@ -56,6 +56,7 @@ function module.build(plugin: Plugin)
 	end
 
 	local screenGui = Instance.new("ScreenGui")
+	screenGui.Archivable = false
 	screenGui.IgnoreGuiInset = false
 	screenGui.Name = "BetterViewSelectorScreenGui"
 	screenGui.Enabled = false
@@ -85,6 +86,7 @@ function module.build(plugin: Plugin)
 
 	plugin.Unloading:Connect(function()
 		plugin:SetSetting(SETTING_KEY, Serializer.encode(controller.save()))
+		screenGui:Destroy()
 	end)
 
 	local renderStepped: RBXScriptConnection?
