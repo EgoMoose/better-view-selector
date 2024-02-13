@@ -1,0 +1,36 @@
+{
+	"name": "better-view-selector",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"Plugin": {
+				"$className": "Folder",
+				"BetterViewSelector": {
+					"$path": "default.project.json"
+				},
+				"Packages": {
+					"$path": "Packages"
+				},
+				"Builds": {
+					"$path": "builds"
+				}
+			}
+		},
+		"StarterGui": {
+			"$className": "StarterGui",
+			"ScreenGui": {
+				"$className": "ScreenGui",
+				"$properties": {
+					"IgnoreGuiInset": true
+				},
+				"DebugBuild": {
+					"$className": "LocalScript",
+					"$properties": {
+						"Source": "require(game.ReplicatedStorage.Plugin.Builds.ScreenGui).build(script.Parent)"
+					}
+				}
+			}
+		}
+	}
+}

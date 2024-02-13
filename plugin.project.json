@@ -1,0 +1,21 @@
+{
+	"name": "better-view-selector",
+	"tree": {
+		"$className": "Folder",
+		"BetterViewSelector": {
+			"$path": "default.project.json"
+		},
+		"Packages": {
+			"$path": "Packages"
+		},
+		"Builds": {
+			"$path": "builds"
+		},
+		"Main": {
+			"$className": "Script",
+			"$properties": {
+				"Source": "require(script.Parent.Builds.Plugin).build()"
+			}
+		}
+	}
+}

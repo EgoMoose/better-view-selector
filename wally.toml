@@ -1,0 +1,9 @@
+[package]
+name = "egomoose/better-view-selector"
+version = "0.1.0"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+Signal = "stravant/goodsignal@0.2.1"
+Janitor = "howmanysmall/janitor@1.15.7"
