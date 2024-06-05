@@ -4,7 +4,7 @@ registry = "test"
 
 [[package]]
 name = "egomoose/better-view-selector"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [["Janitor", "howmanysmall/janitor@1.15.7"], ["LuaEncode", "regginator/luaencode@1.3.1"], ["Signal", "stravant/goodsignal@0.2.1"]]
 
 [[package]]

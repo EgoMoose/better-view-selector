@@ -108,6 +108,18 @@ local function wrapDragger(viewSelector: any)
 	end)
 end
 
+local function waitForCamera()
+	while not workspace.CurrentCamera do
+		workspace:GetPropertyChangedSignal("CurrentCamera"):Wait()
+	end
+
+	local vps = workspace.CurrentCamera.ViewportSize
+	while vps:Dot(vps) <= 0 do
+		workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Wait()
+		vps = workspace.CurrentCamera.ViewportSize
+	end
+end
+
 -- Public
 
 type SetupOptions = {
@@ -124,6 +136,8 @@ type SetupOptions = {
 }
 
 function module.setup(parent: ScreenGui, options: SetupOptions)
+	waitForCamera()
+
 	state.janitor:Cleanup()
 	state.position = options.position
 
