@@ -62,12 +62,12 @@ local function getViewportConstrainedPosition(container: GuiObject, containerRec
 		viewportSize.Y - VIEWPORT_DRAG_GAP
 	)
 
-	local contrainedRect = constrainInside(containerRect, viewportBounds)
+	local constrainedRect = constrainInside(containerRect, viewportBounds)
 	
 	-- stylua: ignore
 	return UDim2.fromScale(
-		(contrainedRect.Min.X + anchorOffset.X) / viewportSize.X, 
-		(contrainedRect.Min.Y + anchorOffset.Y) / viewportSize.Y
+		(constrainedRect.Min.X + anchorOffset.X) / viewportSize.X, 
+		(constrainedRect.Min.Y + anchorOffset.Y) / viewportSize.Y
 	)
 end
 
