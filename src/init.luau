@@ -17,7 +17,7 @@ local module = {}
 
 type State = {
 	position: UDim2,
-	selectors: { [boolean]: any },
+	selectors: { [boolean]: LegacyViewSelector.LegacyViewSelector },
 	janitor: any,
 }
 
@@ -180,10 +180,8 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 	state.janitor:Add(options.useLocalSpaceChanged:Connect(render))
 
 	state.janitor:Add(function()
-		for _spaceType, byType in state.selectors do
-			for _selectorType, viewSelector in byType do
-				viewSelector:SetVisible(false)
-			end
+		for _isLegacy, viewSelector in state.selectors do
+			viewSelector:SetVisible(false)
 		end
 	end)
 

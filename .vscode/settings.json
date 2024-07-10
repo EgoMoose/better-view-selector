@@ -12,4 +12,7 @@
 
 	"luau-lsp.sourcemap.rojoProjectFile": "develop.project.json",
 	"stylua.targetReleaseVersion": "latest",
+	"cSpell.words": [
+		"setmetatable"
+	],
 }

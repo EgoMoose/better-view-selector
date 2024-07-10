@@ -1,3 +1,5 @@
+--!strict
+
 local pluginRoot = script.Parent.Parent.Parent
 
 local Janitor = require(pluginRoot.Packages.Janitor)
@@ -21,12 +23,31 @@ local DEFAULT_AXIS_COLORS = {
 	},
 }
 
+-- Class
+
 local LegacyViewSelectorClass = {}
 LegacyViewSelectorClass.__index = LegacyViewSelectorClass
 LegacyViewSelectorClass.ClassName = "LegacyViewSelector"
 
-function LegacyViewSelectorClass.new()
-	local self = setmetatable({}, LegacyViewSelectorClass)
+export type LegacyViewSelector = typeof(setmetatable(
+	{} :: {
+		container: ImageButton,
+		axes: {
+			[Enum.Axis]: {
+				frame: Frame,
+				label: TextLabel,
+			},
+		},
+
+		janitor: any,
+	},
+	LegacyViewSelectorClass
+))
+
+-- Constructors
+
+function LegacyViewSelectorClass.new(): LegacyViewSelector
+	local self = setmetatable({}, LegacyViewSelectorClass) :: LegacyViewSelector
 
 	self.container = Instance.new("ImageButton")
 	self.container.Image = ""
@@ -66,7 +87,7 @@ end
 
 -- Private
 
-function LegacyViewSelectorClass:_setAxis(axis: Enum.Axis, vector: Vector2, zIndex: number)
+function LegacyViewSelectorClass._setAxis(self: LegacyViewSelector, axis: Enum.Axis, vector: Vector2, zIndex: number)
 	local textOffset = TEXT_OFFSET[axis]
 	local length = vector.Magnitude
 
@@ -85,15 +106,15 @@ end
 
 -- Public
 
-function LegacyViewSelectorClass:GetContainer()
+function LegacyViewSelectorClass.GetContainer(self: LegacyViewSelector)
 	return self.container
 end
 
-function LegacyViewSelectorClass:SetVisible(visible: boolean)
+function LegacyViewSelectorClass.SetVisible(self: LegacyViewSelector, visible: boolean)
 	self.container.Visible = visible
 end
 
-function LegacyViewSelectorClass:SetAxisColor(isWorldSpace: boolean)
+function LegacyViewSelectorClass.SetAxisColor(self: LegacyViewSelector, isWorldSpace: boolean)
 	local colors = DEFAULT_AXIS_COLORS[isWorldSpace]
 	for axis, color in colors do
 		local axisInstances = self.axes[axis]
@@ -102,7 +123,7 @@ function LegacyViewSelectorClass:SetAxisColor(isWorldSpace: boolean)
 	end
 end
 
-function LegacyViewSelectorClass:Render(rotation: CFrame)
+function LegacyViewSelectorClass.Render(self: LegacyViewSelector, rotation: CFrame)
 	local camera = workspace.CurrentCamera
 	local pixelHeight = math.min(self.container.AbsoluteSize.X, self.container.AbsoluteSize.Y) / 2
 	local pixelHeightAsPercent = pixelHeight / (camera.ViewportSize.Y / 2)
@@ -127,13 +148,16 @@ function LegacyViewSelectorClass:Render(rotation: CFrame)
 		return a.vector.Z > b.vector.Z
 	end)
 
-	for i, value in ipairs(axes) do
+	for i = 1, #axes do
+		local value = axes[i]
 		self:_setAxis(value.axis, value.vector, i)
 	end
 end
 
-function LegacyViewSelectorClass:Destroy()
+function LegacyViewSelectorClass.Destroy(self: LegacyViewSelector)
 	self.janitor:Destroy()
 end
+
+--
 
 return LegacyViewSelectorClass
