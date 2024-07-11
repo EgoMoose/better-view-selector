@@ -150,6 +150,11 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 		container.Parent = parent
 	end
 
+	local isWorldSpaceEnabled = true
+	local function setWorldSpaceEnabled(enabled: boolean)
+		isWorldSpaceEnabled = not not enabled
+	end
+
 	local function render()
 		if not options then
 			return
@@ -164,10 +169,10 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 		end
 
 		for isLegacy, viewSelector in state.selectors do
-			local isVisible = isLegacy == useLegacy
+			local isWorldSpace = not objectSpaceCF
+			local isVisible = (isLegacy == useLegacy) and (isWorldSpaceEnabled or not isWorldSpace)
 
 			if isVisible then
-				local isWorldSpace = not objectSpaceCF
 				viewSelector:SetAxisColor(isWorldSpace)
 				viewSelector:Render(objectSpaceCF or CFrame.identity)
 			end
@@ -189,6 +194,8 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 
 	return {
 		render = render,
+		setWorldSpaceEnabled = setWorldSpaceEnabled,
+
 		save = function()
 			return {
 				version = 1,

@@ -57,7 +57,7 @@ function module.build(plugin: Plugin)
 
 	local screenGui = Instance.new("ScreenGui")
 	screenGui.Archivable = false
-	screenGui.IgnoreGuiInset = false
+	screenGui.IgnoreGuiInset = true
 	screenGui.Name = "BetterViewSelectorScreenGui"
 	screenGui.Enabled = false
 	screenGui.Parent = CoreGui
@@ -105,20 +105,27 @@ function module.build(plugin: Plugin)
 
 	----------------------------------------------------
 
-	RunService.Heartbeat:Wait() -- let the roblox view selector plugin init
+	if RunService:IsEdit() then
+		RunService.Heartbeat:Wait() -- let the roblox view selector plugin init
 
-	local viewSelectorScreenGui = CoreGui:FindFirstChild("ViewSelectorScreenGui")
-	if viewSelectorScreenGui then
-		viewSelectorScreenGui.Parent = nil
-		viewSelectorScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
+		local viewSelectorScreenGui = CoreGui:FindFirstChild("ViewSelectorScreenGui")
+		if viewSelectorScreenGui then
+			viewSelectorScreenGui.Parent = nil
+			viewSelectorScreenGui:GetPropertyChangedSignal("Enabled"):Connect(function()
+				onButtonToggled(viewSelectorScreenGui.Enabled)
+
+				if viewSelectorScreenGui.Enabled then
+					RunService:UnbindFromRenderStep("ViewSelectorAfterCamera")
+				end
+			end)
+
 			onButtonToggled(viewSelectorScreenGui.Enabled)
-
-			if viewSelectorScreenGui.Enabled then
-				RunService:UnbindFromRenderStep("ViewSelectorAfterCamera")
-			end
-		end)
-
-		onButtonToggled(viewSelectorScreenGui.Enabled)
+		end
+	elseif RunService:IsServer() then
+		onButtonToggled(true)
+	elseif RunService:IsClient() then
+		controller.setWorldSpaceEnabled(false)
+		onButtonToggled(true)
 	end
 end
 
