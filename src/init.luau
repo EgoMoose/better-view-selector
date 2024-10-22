@@ -2,7 +2,7 @@
 
 local pluginRoot = script.Parent
 
-local Janitor = require(pluginRoot.Packages.Janitor)
+local Trove = require(pluginRoot.Packages.Trove)
 
 local Dragger = require(pluginRoot.BetterViewSelector.Helpers.Dragger)
 local LegacyViewSelector = require(pluginRoot.BetterViewSelector.ViewSelectors.LegacyViewSelector)
@@ -18,7 +18,7 @@ local module = {}
 type State = {
 	position: UDim2,
 	selectors: { [boolean]: LegacyViewSelector.LegacyViewSelector },
-	janitor: any,
+	trove: Trove.Trove,
 }
 
 local state: State = {
@@ -29,7 +29,7 @@ local state: State = {
 		--[false] = ModernViewSelector.new(), -- TODO?
 	},
 
-	janitor = Janitor.new(),
+	trove = Trove.new(),
 }
 
 local function constrainInside(rect: Rect, bounds: Rect)
@@ -95,12 +95,12 @@ local function wrapDragger(viewSelector: any)
 	end)
 
 	local dragEnded = dragger:GetDragEndedSignal():Connect(function(_input: InputObject)
-		for _isLegacy, selector in state.selectors do
+		for _isLegacy, selector: any in state.selectors do
 			selector:GetContainer().Position = state.position
 		end
 	end)
 
-	viewSelector.janitor:Add(function()
+	viewSelector.trove:Add(function()
 		dragStarted:Disconnect()
 		dragChanged:Disconnect()
 		dragEnded:Disconnect()
@@ -138,10 +138,10 @@ type SetupOptions = {
 function module.setup(parent: ScreenGui, options: SetupOptions)
 	waitForCamera()
 
-	state.janitor:Cleanup()
+	state.trove:Clean()
 	state.position = options.position
 
-	for _isLegacy, viewSelector in state.selectors do
+	for _isLegacy, viewSelector: any in state.selectors do
 		wrapDragger(viewSelector)
 
 		local container = viewSelector:GetContainer()
@@ -168,7 +168,7 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 			objectSpaceCF = options.getSelectedCFrame()
 		end
 
-		for isLegacy, viewSelector in state.selectors do
+		for isLegacy, viewSelector: any in state.selectors do
 			local isWorldSpace = not objectSpaceCF
 			local isVisible = (isLegacy == useLegacy) and (isWorldSpaceEnabled or not isWorldSpace)
 
@@ -181,11 +181,11 @@ function module.setup(parent: ScreenGui, options: SetupOptions)
 		end
 	end
 
-	state.janitor:Add(options.useLegacyChanged:Connect(render))
-	state.janitor:Add(options.useLocalSpaceChanged:Connect(render))
+	state.trove:Add(options.useLegacyChanged:Connect(render))
+	state.trove:Add(options.useLocalSpaceChanged:Connect(render))
 
-	state.janitor:Add(function()
-		for _isLegacy, viewSelector in state.selectors do
+	state.trove:Add(function()
+		for _isLegacy, viewSelector: any in state.selectors do
 			viewSelector:SetVisible(false)
 		end
 	end)

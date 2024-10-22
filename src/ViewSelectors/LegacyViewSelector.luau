@@ -2,7 +2,7 @@
 
 local pluginRoot = script.Parent.Parent.Parent
 
-local Janitor = require(pluginRoot.Packages.Janitor)
+local Trove = require(pluginRoot.Packages.Trove)
 
 local TEXT_OFFSET = {
 	[Enum.Axis.X] = Vector2.new(0, 0),
@@ -39,7 +39,7 @@ export type LegacyViewSelector = typeof(setmetatable(
 			},
 		},
 
-		janitor: any,
+		trove: Trove.Trove,
 	},
 	LegacyViewSelectorClass
 ))
@@ -79,8 +79,8 @@ function LegacyViewSelectorClass.new(): LegacyViewSelector
 		}
 	end
 
-	self.janitor = Janitor.new()
-	self.janitor:Add(self.container)
+	self.trove = Trove.new()
+	self.trove:Add(self.container)
 
 	return self
 end
@@ -155,7 +155,7 @@ function LegacyViewSelectorClass.Render(self: LegacyViewSelector, rotation: CFra
 end
 
 function LegacyViewSelectorClass.Destroy(self: LegacyViewSelector)
-	self.janitor:Destroy()
+	self.trove:Destroy()
 end
 
 --
