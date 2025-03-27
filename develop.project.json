@@ -1,0 +1,12 @@
+{
+	"name": "better-view-selector-plugin",
+	"tree": {
+		"$className": "DataModel",
+		"ReplicatedStorage": {
+			"$className": "ReplicatedStorage",
+			"PluginRoot": {
+				"$path": "plugin.project.json"
+			}
+		}
+	}
+}
