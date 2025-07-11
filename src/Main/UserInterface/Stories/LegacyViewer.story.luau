@@ -10,6 +10,7 @@ local CreateStory = require(stories.Helpers.CreateStory)
 
 local uiRoot = script:FindFirstAncestor("UserInterface")
 local LegacyViewSelector = require(uiRoot.Components.Viewers.LegacyViewer)
+local FreeDrag = require(uiRoot.Components.Generic.FreeDrag)
 
 local function story()
 	local rotation, setRotation = React.useState(CFrame.identity)
@@ -32,11 +33,17 @@ local function story()
 		end
 	end, {})
 
-	return React.createElement("Frame", {
-		BackgroundTransparency = 1,
+	local isDragging, setIsDragging = React.useState(false)
+
+	return React.createElement(FreeDrag, {
+		SetIsDragging = setIsDragging,
+
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		Position = UDim2.fromScale(0.5, 0.5),
+		InitialPosition = UDim2.fromScale(0.5, 0.5),
 		Size = UDim2.fromOffset(50, 50),
+
+		Scale = 1,
+		Disabled = false,
 	}, {
 		Viewer = React.createElement(LegacyViewSelector, {
 			Rotation = rotation,

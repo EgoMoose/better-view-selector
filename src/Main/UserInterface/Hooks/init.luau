@@ -6,7 +6,6 @@ return {
 
 	useMouseDrag = require(script.useMouseDrag),
 	useRefProperty = require(script.useRefProperty),
-	useInstanceProperty = require(script.useInstanceProperty),
 
 	useCameraSpaceCFrame = require(script.useCameraSpaceCFrame),
 }

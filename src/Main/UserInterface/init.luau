@@ -5,6 +5,7 @@ local ReactRoblox = require(pluginRoot.Packages.ReactRoblox)
 local React = require(pluginRoot.Packages.React)
 
 local LegacyViewSelector = require(script.Components.Viewers.LegacyViewer)
+local FreeDrag = require(script.Components.Generic.FreeDrag)
 local Hooks = require(script.Hooks)
 
 local UserInterface = {}
@@ -13,14 +14,21 @@ function UserInterface.mount(parent: Instance)
 	local root = ReactRoblox.createRoot(parent)
 
 	local function App()
-		local selectedCF = Hooks.useInstanceProperty(workspace.Part, "CFrame", CFrame.identity)
+		local partRef = React.useRef(workspace.Part)
+		local selectedCF = Hooks.useRefProperty(partRef, "CFrame", CFrame.identity)
 		local rotationCF = Hooks.useCameraSpaceCFrame(selectedCF)
 
-		return React.createElement("Frame", {
+		local isDragging, setIsDragging = React.useState(false)
+
+		return React.createElement(FreeDrag, {
+			SetIsDragging = setIsDragging,
+
 			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
+			InitialPosition = UDim2.fromScale(0.5, 0.5),
 			Size = UDim2.fromOffset(50, 50),
-			BackgroundTransparency = 1,
+
+			Scale = 1,
+			Disabled = false,
 		}, {
 			Viewer = React.createElement(LegacyViewSelector, {
 				Rotation = rotationCF,

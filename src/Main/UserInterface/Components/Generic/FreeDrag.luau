@@ -4,10 +4,7 @@ local pluginRoot = script:FindFirstAncestor("PluginRoot")
 local React = require(pluginRoot.Packages.React)
 
 local uiRoot = script:FindFirstAncestor("UserInterface")
-local ContainerSize = require(uiRoot.Components.Generic.ContainerSize)
 local Hooks = require(uiRoot.Hooks)
-
-local isDraggingContext = React.createContext(false)
 
 export type Props = {
 	SetIsDragging: (boolean) -> (),
@@ -29,10 +26,12 @@ local function convertToAbsSize(udim2: UDim2, containerSize: Vector2)
 	)
 end
 
-local function FreeDrag(props: Props & { ContainerSize: Vector2 })
+local function FreeDrag(props: Props)
 	local position, setPosition = React.useState(props.InitialPosition)
 
-	local containerSize = props.ContainerSize
+	local containerRef = React.useRef(nil)
+	local containerSize = Hooks.useRefProperty(containerRef, "AbsoluteSize", Vector2.zero)
+
 	local absSize = convertToAbsSize(props.Size, containerSize) * props.Scale
 	local absAnchorPosition = convertToAbsSize(position, containerSize) * props.Scale
 	local absAnchorSize = props.AnchorPoint * absSize
@@ -72,8 +71,10 @@ local function FreeDrag(props: Props & { ContainerSize: Vector2 })
 		end
 	end, { isDragging })
 
-	return React.createElement(isDraggingContext.Provider, {
-		value = isDragging,
+	return React.createElement("Frame", {
+		BackgroundTransparency = 1,
+		Size = UDim2.fromScale(1, 1),
+		ref = containerRef,
 	}, {
 		Dragger = React.createElement("ImageButton", {
 			Size = props.Size,
@@ -87,30 +88,11 @@ local function FreeDrag(props: Props & { ContainerSize: Vector2 })
 			[React.Event.InputChanged] = dragger.onInputChanged,
 			[React.Event.InputEnded] = dragger.onInputEnded,
 		}, {
-			UIScale = React.createElement("UIScale", {
+			UIScale = props.Scale ~= 1 and React.createElement("UIScale", {
 				Scale = props.Scale,
 			}),
 		}, props.children),
 	})
 end
 
-return function(props: Props)
-	local containerSize, setContainerSize = React.useState(Vector2.zero)
-
-	return React.createElement(ContainerSize, {
-		SetContainerSize = setContainerSize,
-	}, {
-		FreeDrag = React.createElement(FreeDrag, {
-			SetIsDragging = props.SetIsDragging,
-			ContainerSize = containerSize,
-
-			InitialPosition = props.InitialPosition,
-			AnchorPoint = props.AnchorPoint,
-			Size = props.Size,
-
-			Scale = props.Scale,
-
-			Disabled = props.Disabled,
-		}, props.children),
-	})
-end
+return FreeDrag
