@@ -10,7 +10,7 @@ local CreateStory = require(stories.Helpers.CreateStory)
 
 local uiRoot = script:FindFirstAncestor("UserInterface")
 local FreeDrag = require(uiRoot.Components.Generic.FreeDrag)
-local LegacyViewSelector = require(uiRoot.Components.Viewers.LegacyViewSelector)
+local ModernViewSelector = require(uiRoot.Components.Viewers.ModernViewSelector)
 
 local function story()
 	local rotation, setRotation = React.useState(CFrame.identity)
@@ -45,7 +45,7 @@ local function story()
 		Scale = 1,
 		Disabled = false,
 	}, {
-		Viewer = React.createElement(LegacyViewSelector, {
+		Viewer = React.createElement(ModernViewSelector, {
 			Rotation = rotation,
 			ColorMap = {
 				[Enum.Axis.X] = Color3.new(1, 0, 0),

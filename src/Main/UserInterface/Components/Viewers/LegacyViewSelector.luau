@@ -56,7 +56,7 @@ export type Props = {
 	ColorMap: { [Enum.Axis]: Color3 },
 }
 
-local function LegacyViewer(props: Props)
+local function LegacyViewSelector(props: Props)
 	local axes = React.useMemo(function()
 		local sorted = {}
 		for _, enum in Enum.Axis:GetEnumItems() do
@@ -91,4 +91,4 @@ local function LegacyViewer(props: Props)
 	}, children)
 end
 
-return LegacyViewer
+return LegacyViewSelector
