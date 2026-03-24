@@ -12,7 +12,9 @@ local function useRefProperty<T>(ref: { current: Instance? }, property: string, 
 			return
 		end
 
+		print(ref.current, property)
 		local connection = ref.current:GetPropertyChangedSignal(property):Connect(function()
+			print("???")
 			setValue((ref.current :: any)[property])
 		end)
 

@@ -5,7 +5,22 @@ registry = "test"
 [[package]]
 name = "egomoose/better-view-selector"
 version = "1.0.0"
-dependencies = [["React", "jsdotlua/react@17.2.1"], ["ReactRoblox", "jsdotlua/react-roblox@17.2.1"]]
+dependencies = [["Prospector", "egomoose/prospector@2.0.1"], ["React", "jsdotlua/react@17.2.1"], ["ReactRoblox", "jsdotlua/react-roblox@17.2.1"]]
+
+[[package]]
+name = "egomoose/deque"
+version = "0.1.1"
+dependencies = []
+
+[[package]]
+name = "egomoose/future"
+version = "1.0.0"
+dependencies = []
+
+[[package]]
+name = "egomoose/prospector"
+version = "2.0.1"
+dependencies = [["Deque", "egomoose/deque@0.1.1"], ["Future", "egomoose/future@1.0.0"], ["Trove", "sleitnick/trove@1.8.0"]]
 
 [[package]]
 name = "jsdotlua/boolean"
@@ -91,3 +106,8 @@ dependencies = []
 name = "jsdotlua/timers"
 version = "1.2.7"
 dependencies = [["collections", "jsdotlua/collections@1.2.7"]]
+
+[[package]]
+name = "sleitnick/trove"
+version = "1.8.0"
+dependencies = []

@@ -52,6 +52,11 @@ local function Axis(props: AxisProps)
 end
 
 export type Props = {
+	AnchorPoint: Vector2?,
+	Position: UDim2?,
+	Size: UDim2?,
+	ZIndex: number?,
+
 	Rotation: CFrame,
 	ColorMap: { [Enum.Axis]: Color3 },
 }
@@ -86,9 +91,12 @@ local function LegacyViewSelector(props: Props)
 	end
 
 	return React.createElement("Frame", {
-		Size = UDim2.fromScale(1, 1),
 		BackgroundTransparency = 1,
+		AnchorPoint = props.AnchorPoint,
+		Position = props.Position,
+		Size = props.Size,
+		ZIndex = props.ZIndex,
 	}, children)
 end
 
-return LegacyViewSelector
+return React.memo(LegacyViewSelector)

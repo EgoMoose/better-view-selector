@@ -9,7 +9,6 @@ local stories = script:FindFirstAncestor("Stories")
 local CreateStory = require(stories.Helpers.CreateStory)
 
 local uiRoot = script:FindFirstAncestor("UserInterface")
-local FreeDrag = require(uiRoot.Components.Generic.FreeDrag)
 local LegacyViewSelector = require(uiRoot.Components.Viewers.LegacyViewSelector)
 
 local function story()
@@ -33,26 +32,17 @@ local function story()
 		end
 	end, {})
 
-	local _isDragging, setIsDragging = React.useState(false)
-
-	return React.createElement(FreeDrag, {
-		SetIsDragging = setIsDragging,
-
+	return React.createElement(LegacyViewSelector, {
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		InitialPosition = UDim2.fromScale(0.5, 0.5),
-		Size = UDim2.fromOffset(50, 50),
+		Position = UDim2.fromScale(0.5, 0.5),
+		Size = UDim2.fromOffset(150, 150),
 
-		Scale = 1,
-		Disabled = false,
-	}, {
-		Viewer = React.createElement(LegacyViewSelector, {
-			Rotation = rotation,
-			ColorMap = {
-				[Enum.Axis.X] = Color3.new(1, 0, 0),
-				[Enum.Axis.Y] = Color3.new(0, 1, 0),
-				[Enum.Axis.Z] = Color3.new(0, 0, 1),
-			},
-		}),
+		Rotation = rotation,
+		ColorMap = {
+			[Enum.Axis.X] = Color3.new(1, 0, 0),
+			[Enum.Axis.Y] = Color3.new(0, 1, 0),
+			[Enum.Axis.Z] = Color3.new(0, 0, 1),
+		},
 	})
 end
 
