@@ -6,5 +6,7 @@
 /lune/**/*.png
 /icons/asphalt/processed
 
+.vscode/settings.json
+
 sourcemap.json
 *.ds_store

@@ -1,5 +1,4 @@
 {
-	"luau-lsp.require.mode": "relativeToFile",
 	"[lua]": {
 		"editor.formatOnSave": true,
 		"editor.defaultFormatter": "JohnnyMorganz.stylua"
@@ -9,11 +8,8 @@
 		"editor.defaultFormatter": "JohnnyMorganz.stylua"
 	},
 	"[json]": {
-		"editor.formatOnSave": false,
+		"editor.formatOnSave": false
 	},
 	"luau-lsp.sourcemap.rojoProjectFile": "develop.project.json",
-	"stylua.targetReleaseVersion": "latest",
-	"luau-lsp.types.definitionFiles": [
-		".vscode/definitions.d.luau"
-	],
+	"stylua.targetReleaseVersion": "latest"
 }
