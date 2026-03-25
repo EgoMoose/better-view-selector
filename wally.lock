@@ -4,7 +4,7 @@ registry = "test"
 
 [[package]]
 name = "egomoose/better-view-selector"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [["React", "jsdotlua/react@17.2.1"], ["ReactRoblox", "jsdotlua/react-roblox@17.2.1"]]
 
 [[package]]
